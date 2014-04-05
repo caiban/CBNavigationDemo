@@ -164,6 +164,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+//    NSLog(@"pushViewController");
     UIImage *image = [UIImage imageWithView:self.view];
     [self.behindImages addObject:image];
     [super pushViewController:viewController animated:animated];
@@ -172,8 +173,20 @@
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
+//    NSLog(@"popViewControllerAnimated");
     UIViewController *result = [super popViewControllerAnimated:animated];
     [self.behindImages removeLastObject];
+    [self resetBehind:[self.behindImages lastObject]];
+    return result;
+}
+
+- (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
+{
+//    NSLog(@"popToRootViewControllerAnimated");
+    [self.behindImages removeAllObjects];
+    NSArray *result = [super popToRootViewControllerAnimated:animated];
+    UIImage *image = [UIImage imageWithView:self.view];
+    [self.behindImages addObject:image];
     [self resetBehind:[self.behindImages lastObject]];
     return result;
 }
